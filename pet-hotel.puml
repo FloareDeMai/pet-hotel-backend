@@ -1,0 +1,102 @@
+@startuml
+'https://plantuml.com/sequence-diagram
+
+class PetHotel {
+-id : Long
+-hotelName : String
+-pictureLink : String
+-password : String
+-email : String
+-isActive : boolean
+-descriptionPetHotel : String
+-address :Address
+-rooms : List<Room>
+-hasVeterinary : boolean
+-rating : double
+-reviews: List<Review>
+}
+
+
+class Customer {
+-id : Long
+-firstName: String
+-lastName: String
+-userName: String
+-email : String
+-password : String
+-address : Address
+-phoneNumber : String
+-gender : Gender
+-age : int
+
+}
+
+class Review {
+-id : Long
+-titleReview : String
+-descriptionReview : String
+-rating : double
+-postedAt : LocalDateTime
+-editedAt : LocalDateTime
+-petHotel : PetHotel
+-customer : Customer
+}
+
+class Room {
+-id : Long
+-roomType : RoomType
+-totalRooms : int
+-bookedRooms : int
+-walkingPerDay : int
+-mealsPerDay : int
+-pricePerDay : int
+-petHotel : PetHotel
+}
+
+class Reservation {
+-id : Long
+-customer : Customer
+-petHotel : PetHotel
+-startDate : LocalDate
+-endDate : LocalDate
+-done : boolean
+-cancelled : boolean
+-confirmed : boolean
+}
+
+enum RoomType {
+ LUXURY_ROOM_DOGS,
+ WEBCAM_ROOM_DOGS,
+ GARDEN_ROOM_DOGS,
+ STANDARD_ROOM_DOGS,
+ STANDARD_ROOM_CATS,
+ LUXURY_ROOM_CATS
+}
+
+enum Gender {
+FEMALE,
+MALE,
+OTHER
+}
+
+
+class Address {
+-city : String
+-country : String
+-street : String
+-numberOfStreet : int
+-zipCode : String
+}
+
+PetHotel o-- Address
+PetHotel o-- Room
+PetHotel o-- Review
+Room -- RoomType
+Room o-- PetHotel
+Review o-- PetHotel
+Review o-- Customer
+Customer -- Gender
+Reservation o-- Customer
+Reservation o-- PetHotel
+
+@enduml
