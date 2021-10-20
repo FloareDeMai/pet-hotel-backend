@@ -10,5 +10,6 @@ public interface HotelOfferRepository extends JpaRepository<HotelOffer, Long> {
     List<HotelOffer> getAllByPetHotel(PetHotel petHotel);
 
     HotelOffer getRoomByPetHotelAndRoomType(PetHotel petHotel, RoomType roomType);
+    HotelOffer getHotelOfferByPetHotelAndRoomType(PetHotel petHotel, RoomType roomType);
 
 }

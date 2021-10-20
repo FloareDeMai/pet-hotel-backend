@@ -49,7 +49,7 @@ public class PetHotel {
     @OneToMany(fetch = FetchType.LAZY, mappedBy = "petHotel")
     private List<Review> reviews;
     private LocalDate joinedDate;
-    @ManyToMany(fetch = FetchType.LAZY)
+    @ManyToMany(cascade = CascadeType.ALL, fetch = FetchType.LAZY)
     @JoinTable(name = "hotel_roles",
             joinColumns = @JoinColumn(name = "pet_hotel_id"),
             inverseJoinColumns = @JoinColumn(name = "role_id"))

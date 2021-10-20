@@ -41,7 +41,7 @@ public class ReservationService {
         Customer currentCustomer = customerRepository.findById(customerId).get();
         PetHotel currentPetHotel = petHotelRepository.findById(petHotelId).get();
         // TODO not booking rooms in the past
-        HotelOffer bookedHotelOffer = hotelOfferRepository.getRoomByPetHotelAndRoomType(currentPetHotel, roomType);
+        HotelOffer bookedHotelOffer = hotelOfferRepository.getHotelOfferByPetHotelAndRoomType(currentPetHotel, roomType);
 
         List<Reservation> allReservationsByRoom = reservationRepository.findReservationsByHotelOffer(bookedHotelOffer);
         log.info("suuus");
