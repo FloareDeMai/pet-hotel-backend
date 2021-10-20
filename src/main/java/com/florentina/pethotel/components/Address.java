@@ -14,8 +14,8 @@ import javax.persistence.Embeddable;
 @NoArgsConstructor
 public class Address {
     private String city;
-    private String county;
+    private String country;
     private String street;
-    private int numberOfStreet;
-    private String zipCode;
+    private int number;
+    private String zip;
 }
