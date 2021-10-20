@@ -17,7 +17,7 @@ import java.util.List;
 @Setter
 @AllArgsConstructor
 @NoArgsConstructor
-public class Room {
+public class HotelOffer {
     @Id
     @GeneratedValue
     private Long id;
@@ -27,14 +27,14 @@ public class Room {
     private int walkingPerDay;
     private int mealsPerDay;
     private int pricePerDay;
-    @OneToMany(fetch = FetchType.LAZY, mappedBy = "room")
+    @OneToMany(fetch = FetchType.LAZY, mappedBy = "hotelOffer")
     private List<Reservation> reservations;
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "hotel_id", nullable = false)
     @JsonIgnore
     private PetHotel petHotel;
 
-    public Room(RoomType roomType, int totalRooms, int walkingPerDay, int mealsPerDay, int pricePerDay, List<Reservation> reservations, PetHotel petHotel) {
+    public HotelOffer(RoomType roomType, int totalRooms, int walkingPerDay, int mealsPerDay, int pricePerDay, List<Reservation> reservations, PetHotel petHotel) {
         this.roomType = roomType;
         this.totalRooms = totalRooms;
         this.walkingPerDay = walkingPerDay;

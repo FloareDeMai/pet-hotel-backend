@@ -2,8 +2,7 @@ package com.florentina.pethotel.booking;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.florentina.pethotel.customer.Customer;
-import com.florentina.pethotel.hotel.PetHotel;
-import com.florentina.pethotel.hotel.room.Room;
+import com.florentina.pethotel.hotel.room.HotelOffer;
 import lombok.Getter;
 import lombok.Setter;
 
@@ -22,9 +21,9 @@ public class Reservation {
     @JsonIgnore
     private Customer customer;
     @ManyToOne
-    @JoinColumn(name = "room_id", nullable = false)
+    @JoinColumn(name = "hotel_offer_id", nullable = false)
     @JsonIgnore
-    private Room room;
+    private HotelOffer hotelOffer;
     private LocalDate startDate;
     private LocalDate endDate;
     private boolean done = false;

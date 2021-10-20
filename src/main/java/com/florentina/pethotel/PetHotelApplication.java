@@ -3,8 +3,8 @@ package com.florentina.pethotel;
 import com.florentina.pethotel.components.Address;
 import com.florentina.pethotel.hotel.PetHotel;
 import com.florentina.pethotel.hotel.PetHotelRepository;
-import com.florentina.pethotel.hotel.room.Room;
-import com.florentina.pethotel.hotel.room.RoomRepository;
+import com.florentina.pethotel.hotel.room.HotelOffer;
+import com.florentina.pethotel.hotel.room.HotelOfferRepository;
 import com.florentina.pethotel.hotel.enums.RoomType;
 import lombok.AllArgsConstructor;
 import org.springframework.boot.SpringApplication;
@@ -17,7 +17,7 @@ import java.util.ArrayList;
 @AllArgsConstructor
 public class PetHotelApplication {
 private final PetHotelRepository petHotelRepository;
-private final RoomRepository roomRepository;
+private final HotelOfferRepository hotelOfferRepository;
     public static void main(String[] args) {
         SpringApplication.run(PetHotelApplication.class, args);
     }
@@ -52,14 +52,14 @@ private final RoomRepository roomRepository;
         petHotelRepository.save(planetHam);
 
 
-        Room room = new Room();
-        room.setRoomType(RoomType.GARDEN_ROOM_DOGS);
-        room.setTotalRooms(1);
-        room.setMealsPerDay(3);
-        room.setWalkingPerDay(2);
-        room.setPricePerDay(70);
-        room.setPetHotel(petHotelRepository.getById(zenHotel.getId()));
-        roomRepository.save(room);
+        HotelOffer hotelOffer = new HotelOffer();
+        hotelOffer.setRoomType(RoomType.GARDEN_ROOM_DOGS);
+        hotelOffer.setTotalRooms(3);
+        hotelOffer.setMealsPerDay(3);
+        hotelOffer.setWalkingPerDay(2);
+        hotelOffer.setPricePerDay(70);
+        hotelOffer.setPetHotel(petHotelRepository.getById(zenHotel.getId()));
+        hotelOfferRepository.save(hotelOffer);
 
 
     }

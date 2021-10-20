@@ -12,7 +12,7 @@ import lombok.ToString;
 @Setter
 @ToString
 @AllArgsConstructor
-public class RoomDto {
+public class HotelOfferDto {
     @JsonProperty("id")
     private Long id;
 

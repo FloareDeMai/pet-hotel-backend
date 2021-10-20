@@ -7,19 +7,15 @@ import com.florentina.pethotel.exception.domain.NoRoomsAvailableException;
 import com.florentina.pethotel.hotel.PetHotel;
 import com.florentina.pethotel.hotel.PetHotelRepository;
 import com.florentina.pethotel.hotel.enums.RoomType;
-import com.florentina.pethotel.hotel.room.Room;
-import com.florentina.pethotel.hotel.room.RoomRepository;
-import com.florentina.pethotel.hotel.room.RoomService;
+import com.florentina.pethotel.hotel.room.HotelOffer;
+import com.florentina.pethotel.hotel.room.HotelOfferRepository;
+import com.florentina.pethotel.hotel.room.HotelOfferService;
 import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
-import org.springframework.transaction.annotation.Transactional;
 
 import java.time.LocalDate;
-import java.util.Calendar;
-import java.util.Date;
 import java.util.List;
-import java.util.stream.Collectors;
 
 @Service
 @AllArgsConstructor
@@ -29,8 +25,8 @@ public class ReservationService {
     private final ReservationRepository reservationRepository;
     private final CustomerRepository customerRepository;
     private final PetHotelRepository petHotelRepository;
-    private final RoomService roomService;
-    private final RoomRepository roomRepository;
+    private final HotelOfferService hotelOfferService;
+    private final HotelOfferRepository hotelOfferRepository;
 
     public List<Reservation> getAllReservations() {
         return reservationRepository.findAll();
@@ -44,20 +40,20 @@ public class ReservationService {
     public Reservation makeAReservation(Long customerId, Long petHotelId, Reservation wantedReservation, RoomType roomType) throws NoRoomsAvailableException {
         Customer currentCustomer = customerRepository.findById(customerId).get();
         PetHotel currentPetHotel = petHotelRepository.findById(petHotelId).get();
+        // TODO not booking rooms in the past
+        HotelOffer bookedHotelOffer = hotelOfferRepository.getRoomByPetHotelAndRoomType(currentPetHotel, roomType);
 
-        Room bookedRoom = roomRepository.getRoomByPetHotelAndRoomType(currentPetHotel, roomType);
-
-        List<Reservation> allReservationsByRoom = reservationRepository.findReservationsByRoom(bookedRoom);
+        List<Reservation> allReservationsByRoom = reservationRepository.findReservationsByHotelOffer(bookedHotelOffer);
         log.info("suuus");
-        if (countOverlappedRooms(allReservationsByRoom, wantedReservation.getStartDate(), wantedReservation.getEndDate()) < bookedRoom.getTotalRooms()) {
+        if (countOverlappedRooms(allReservationsByRoom, wantedReservation.getStartDate(), wantedReservation.getEndDate()) < bookedHotelOffer.getTotalRooms()) {
             log.info("aiciiii");
             Reservation newReservation = new Reservation();
             newReservation.setCustomer(currentCustomer);
-            newReservation.setRoom(bookedRoom);
+            newReservation.setHotelOffer(bookedHotelOffer);
             newReservation.setStartDate(wantedReservation.getStartDate());
             newReservation.setEndDate(wantedReservation.getEndDate());
             reservationRepository.save(newReservation);
-            roomRepository.save(bookedRoom);
+            hotelOfferRepository.save(bookedHotelOffer);
 
             return newReservation;
 

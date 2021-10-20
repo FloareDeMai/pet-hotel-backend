@@ -5,4 +5,11 @@ import org.springframework.stereotype.Repository;
 
 @Repository
 public interface PetHotelRepository extends JpaRepository<PetHotel, Long> {
+    boolean existsByHotelName(String hotelName);
+
+    boolean existsByEmail(String email);
+
+    PetHotel findByHotelName(String hotelName);
+
+    PetHotel findPetHotelById(Long id);
 }
