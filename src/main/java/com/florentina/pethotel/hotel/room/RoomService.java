@@ -18,7 +18,6 @@ public class RoomService {
         newRoom.setRoomType(room.getRoomType());
         newRoom.setPetHotel(petHotel);
         newRoom.setTotalRooms(room.getTotalRooms());
-        newRoom.setBookedRooms(room.getBookedRooms());
         newRoom.setWalkingPerDay(room.getWalkingPerDay());
         newRoom.setMealsPerDay(room.getMealsPerDay());
         newRoom.setPricePerDay(room.getPricePerDay());

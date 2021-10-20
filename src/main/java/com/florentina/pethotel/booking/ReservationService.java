@@ -3,6 +3,7 @@ package com.florentina.pethotel.booking;
 
 import com.florentina.pethotel.customer.Customer;
 import com.florentina.pethotel.customer.CustomerRepository;
+import com.florentina.pethotel.exception.domain.NoRoomsAvailableException;
 import com.florentina.pethotel.hotel.PetHotel;
 import com.florentina.pethotel.hotel.PetHotelRepository;
 import com.florentina.pethotel.hotel.enums.RoomType;
@@ -39,35 +40,47 @@ public class ReservationService {
         return reservationRepository.findAllByCustomerId(customer.getId());
     }
 
-    @Transactional
-    public Reservation makeAReservation(Long customerId, Long petHotelId, Reservation reservation, RoomType roomType) {
+
+    public Reservation makeAReservation(Long customerId, Long petHotelId, Reservation wantedReservation, RoomType roomType) throws NoRoomsAvailableException {
         Customer currentCustomer = customerRepository.findById(customerId).get();
         PetHotel currentPetHotel = petHotelRepository.findById(petHotelId).get();
 
         Room bookedRoom = roomRepository.getRoomByPetHotelAndRoomType(currentPetHotel, roomType);
-        bookedRoom.setBookedRooms(bookedRoom.getBookedRooms() + 1);
 
-        List<Reservation> allReservationsByPetHotelId = reservationRepository.findAllByPetHotelId(petHotelId);
-        Reservation newReservation = new Reservation();
-        newReservation.setCustomer(currentCustomer);
-        newReservation.setPetHotel(currentPetHotel);
-        newReservation.setStartDate(reservation.getStartDate());
-        newReservation.setEndDate(reservation.getEndDate());
-        reservationRepository.save(newReservation);
-        roomRepository.save(bookedRoom);
+        List<Reservation> allReservationsByRoom = reservationRepository.findReservationsByRoom(bookedRoom);
+        log.info("suuus");
+        if (countOverlappedRooms(allReservationsByRoom, wantedReservation.getStartDate(), wantedReservation.getEndDate()) < bookedRoom.getTotalRooms()) {
+            log.info("aiciiii");
+            Reservation newReservation = new Reservation();
+            newReservation.setCustomer(currentCustomer);
+            newReservation.setRoom(bookedRoom);
+            newReservation.setStartDate(wantedReservation.getStartDate());
+            newReservation.setEndDate(wantedReservation.getEndDate());
+            reservationRepository.save(newReservation);
+            roomRepository.save(bookedRoom);
 
-        return newReservation;
+            return newReservation;
+
+        } else {
+            throw new NoRoomsAvailableException("No rooms available");
+        }
+
 
     }
     // dintre camerele libere vine al doilea filtru
+    // numar rezervarile care se overlap si daca numarul e mai mic decat total room inseamna ca am liber
 
-    private boolean hasFreeRooms(Long petHotelId){
-        PetHotel petHotel = petHotelRepository.findById(petHotelId).get();
-        List<Room> hotelRooms = roomRepository.getAllByPetHotel(petHotel);
-        return hotelRooms.stream().anyMatch(r-> r.getBookedRooms() < r.getTotalRooms());
-    }
+//    private boolean hasFreeRooms(Long petHotelId){
+//        PetHotel petHotel = petHotelRepository.findById(petHotelId).get();
+//        List<Room> hotelRooms = roomRepository.getAllByPetHotel(petHotel);
+//        return hotelRooms.stream().anyMatch(r-> r.getBookedRooms() < r.getTotalRooms());
+//    }
 
     private boolean reservationOverlaps(Reservation reservation, LocalDate startDate, LocalDate endDate) {
         return startDate.isBefore(reservation.getEndDate()) && endDate.isAfter(reservation.getStartDate());
+    }
+
+    private int countOverlappedRooms(List<Reservation> allReservationsByRoom, LocalDate startDate, LocalDate endDate) {
+        return (int) allReservationsByRoom.stream().filter(r -> reservationOverlaps(r, startDate, endDate)).count();
     }
 }

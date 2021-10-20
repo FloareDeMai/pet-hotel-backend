@@ -49,8 +49,5 @@ public class PetHotel {
         this.reviews = reviews;
     }
 
-    public void addRoom(Room room){
-        room.setPetHotel(this);
-        rooms.add(room);
-    }
+
 }

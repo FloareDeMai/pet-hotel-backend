@@ -33,3 +33,8 @@ public class Review {
     private PetHotel petHotel;
 
 }
+
+
+//rezervarea o leg de camera si camera e legata de pet hotel
+//manyTo one rez-> room
+//onetomany hotel-> rooms

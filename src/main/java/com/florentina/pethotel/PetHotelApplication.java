@@ -27,7 +27,7 @@ private final RoomRepository roomRepository;
 
         PetHotel zenHotel = new PetHotel();
         zenHotel.setHotelName("Zen Hotel");
-        zenHotel.setHotelPassword("123");
+        zenHotel.setPassword("123");
         zenHotel.setEmail("zen-hotel@gmail.com");
         zenHotel.setDescription("Experiența noastră se reflectă în modul în care am organizat spațiile de cazare și cele de ieșire, fluxul pet hotelului, alegerea furnizorilor, colaboratorilor și nu în ultimul rând, a setului de reguli și condiții pe care e necesar să le îndepliniți la cazare. Prin respectarea indicațiilor noastre, ne oferiți astfel sprijinul în a acorda toată atenția și grija noastră pentru cățelul, pisica sau animăluțul dvs. de companie.");
         zenHotel.setAddress(new Address("Bucuresti", "Romania", "Matei Basarab", 23, "042041"));
@@ -41,7 +41,7 @@ private final RoomRepository roomRepository;
 
         PetHotel planetHam = new PetHotel();
         planetHam.setHotelName("Planeta Ham Ham");
-        planetHam.setHotelPassword("123");
+        planetHam.setPassword("123");
         planetHam.setEmail("planeta-ham@gmail.com");
         planetHam.setDescription("Servicii si facilitati incluse: Oricand aveti nevoie sa va cazati catelul (sau pisica) intr-un loc sigur si accesibil, in spatii de interior, la toate categoriile de pret, Planeta HamHam va sta la dispozitie. Fie ca plecati din oras, va lasati catelul la gradinita sau doriti sa-l educati printr-un curs intensiv de dresaj, veti gasi aici cel mai confortabil pethotel.");
         planetHam.setAddress(new Address("Bucuresti", "Romania", "Barbu Vacarescu", 162, "042041"));
@@ -54,8 +54,7 @@ private final RoomRepository roomRepository;
 
         Room room = new Room();
         room.setRoomType(RoomType.GARDEN_ROOM_DOGS);
-        room.setBookedRooms(0);
-        room.setTotalRooms(22);
+        room.setTotalRooms(1);
         room.setMealsPerDay(3);
         room.setWalkingPerDay(2);
         room.setPricePerDay(70);

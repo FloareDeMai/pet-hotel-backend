@@ -31,6 +31,8 @@ class Customer {
 
 }
 
+
+
 class Review {
 -id : Long
 -titleReview : String
@@ -46,10 +48,10 @@ class Room {
 -id : Long
 -roomType : RoomType
 -totalRooms : int
--bookedRooms : int
 -walkingPerDay : int
 -mealsPerDay : int
 -pricePerDay : int
+-reservations : List<Reservation>
 -petHotel : PetHotel
 }
 
