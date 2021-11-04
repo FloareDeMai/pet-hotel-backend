@@ -30,12 +30,24 @@ private final HotelOfferRepository hotelOfferRepository;
         zenHotel.setPassword("123");
         zenHotel.setEmail("zen-hotel@gmail.com");
         zenHotel.setDescription("Experiența noastră se reflectă în modul în care am organizat spațiile de cazare și cele de ieșire, fluxul pet hotelului, alegerea furnizorilor, colaboratorilor și nu în ultimul rând, a setului de reguli și condiții pe care e necesar să le îndepliniți la cazare. Prin respectarea indicațiilor noastre, ne oferiți astfel sprijinul în a acorda toată atenția și grija noastră pentru cățelul, pisica sau animăluțul dvs. de companie.");
-        zenHotel.setAddress(new Address("Bucuresti", "Romania", "Matei Basarab", 23, "042041"));
+        zenHotel.setAddress(new Address("Ploiesti", "Romania", "Matei Basarab", 23, "042041"));
         zenHotel.setHasVeterinary(true);
         zenHotel.setRating(0.0);
         zenHotel.setPictureLink("https://scontent.fotp3-3.fna.fbcdn.net/v/t1.6435-9/131893037_176598604186647_5592366403523861440_n.jpg?_nc_cat=101&ccb=1-5&_nc_sid=e3f864&_nc_ohc=EqiRnPcjSFEAX_Ys7ob&_nc_ht=scontent.fotp3-3.fna&oh=a7dbd46af48ab3eee6b9724095402173&oe=61906407");
         zenHotel.setReviews(new ArrayList<>());
         petHotelRepository.save(zenHotel);
+
+        PetHotel raiulAnimalelor = new PetHotel();
+        raiulAnimalelor.setHotelName("Raiul animalelor");
+        raiulAnimalelor.setPassword("123");
+        raiulAnimalelor.setEmail("raiul-animalelor@gmail.com");
+        raiulAnimalelor.setDescription("Hainute,jucarii,accesorii,mancare,recompense si cosmetice pentru animale.Servicii de cosmetica felina si canina,cat si hotel pentu animale.");
+        raiulAnimalelor.setAddress(new Address("Ploiesti", "Romania", "Florilor", 25, "042049"));
+        raiulAnimalelor.setHasVeterinary(true);
+        raiulAnimalelor.setRating(0.0);
+        raiulAnimalelor.setPictureLink("https://i.pinimg.com/736x/d0/d6/d7/d0d6d726d527e8fba7a29b4a1f84bea5--dog-boarding-kennels-dog-kennels.jpg");
+        raiulAnimalelor.setReviews(new ArrayList<>());
+        petHotelRepository.save(raiulAnimalelor);
 
 
 
@@ -52,14 +64,24 @@ private final HotelOfferRepository hotelOfferRepository;
         petHotelRepository.save(planetHam);
 
 
-        HotelOffer hotelOffer = new HotelOffer();
-        hotelOffer.setRoomType(RoomType.GARDEN_ROOM_DOGS);
-        hotelOffer.setTotalRooms(3);
-        hotelOffer.setMealsPerDay(3);
-        hotelOffer.setWalkingPerDay(2);
-        hotelOffer.setPricePerDay(70);
-        hotelOffer.setPetHotel(petHotelRepository.getById(zenHotel.getId()));
-        hotelOfferRepository.save(hotelOffer);
+        HotelOffer hotelOfferZenHotel = new HotelOffer();
+        hotelOfferZenHotel.setRoomType(RoomType.GARDEN_ROOM_DOGS);
+        hotelOfferZenHotel.setTotalRooms(3);
+        hotelOfferZenHotel.setMealsPerDay(3);
+        hotelOfferZenHotel.setWalkingPerDay(2);
+        hotelOfferZenHotel.setPricePerDay(70);
+        hotelOfferZenHotel.setPetHotel(petHotelRepository.getById(zenHotel.getId()));
+        hotelOfferRepository.save(hotelOfferZenHotel);
+
+
+        HotelOffer hotelOfferRaiulAnimalelor = new HotelOffer();
+        hotelOfferRaiulAnimalelor.setRoomType(RoomType.LUXURY_ROOM_DOGS);
+        hotelOfferRaiulAnimalelor.setTotalRooms(2);
+        hotelOfferRaiulAnimalelor.setMealsPerDay(3);
+        hotelOfferRaiulAnimalelor.setWalkingPerDay(3);
+        hotelOfferRaiulAnimalelor.setPricePerDay(100);
+        hotelOfferRaiulAnimalelor.setPetHotel(petHotelRepository.getById(raiulAnimalelor.getId()));
+        hotelOfferRepository.save(hotelOfferRaiulAnimalelor);
 
 
     }

@@ -14,4 +14,8 @@ public class PetHotelService {
     public List<PetHotel> getAllHotels() {
         return petHotelRepository.findAll();
     }
+
+    public List<PetHotel> getAllPetHotelsByCity(String cityName){
+        return petHotelRepository.findPetHotelsByAddress_City(cityName);
+    }
 }

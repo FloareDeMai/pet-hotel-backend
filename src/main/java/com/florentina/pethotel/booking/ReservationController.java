@@ -32,4 +32,7 @@ public class ReservationController {
         Reservation reservationToAdd = reservationService.makeAReservation(customerId,petHotelId,newReservation, roomType);
         return new ResponseEntity<>(reservationToAdd, HttpStatus.OK);
     }
+
+
+
 }

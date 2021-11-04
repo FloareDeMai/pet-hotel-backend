@@ -15,6 +15,7 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDate;
+import java.util.ArrayList;
 import java.util.List;
 
 @Service
@@ -41,12 +42,11 @@ public class ReservationService {
         Customer currentCustomer = customerRepository.findById(customerId).get();
         PetHotel currentPetHotel = petHotelRepository.findById(petHotelId).get();
         // TODO not booking rooms in the past
-        HotelOffer bookedHotelOffer = hotelOfferRepository.getRoomByPetHotelAndRoomType(currentPetHotel, roomType);
+        HotelOffer bookedHotelOffer = hotelOfferRepository.getHotelOfferByPetHotelAndRoomType(currentPetHotel, roomType);
 
         List<Reservation> allReservationsByRoom = reservationRepository.findReservationsByHotelOffer(bookedHotelOffer);
-        log.info("suuus");
+
         if (countOverlappedRooms(allReservationsByRoom, wantedReservation.getStartDate(), wantedReservation.getEndDate()) < bookedHotelOffer.getTotalRooms()) {
-            log.info("aiciiii");
             Reservation newReservation = new Reservation();
             newReservation.setCustomer(currentCustomer);
             newReservation.setHotelOffer(bookedHotelOffer);
@@ -71,6 +71,31 @@ public class ReservationService {
 //        List<Room> hotelRooms = roomRepository.getAllByPetHotel(petHotel);
 //        return hotelRooms.stream().anyMatch(r-> r.getBookedRooms() < r.getTotalRooms());
 //    }
+
+    //TODO find all hotels that have available rooms in a specific interval
+    // city
+    // startDate, endDate
+    // return List<PetHotel>
+
+    public List<PetHotel> findPetHotelsByCityAndIntervalSearched(String cityName, LocalDate startDate, LocalDate endDate){
+        List<PetHotel> petHotelsByCityName = petHotelRepository.findPetHotelsByAddress_City(cityName);
+
+        List<List<HotelOffer>> roomsByPetHotel = new ArrayList<>();
+        List<PetHotel> availableHotelsInPeriod = new ArrayList<>();
+        for(PetHotel petHotel: petHotelsByCityName){
+             roomsByPetHotel.add(hotelOfferRepository.getHotelOfferByPetHotel(petHotel));
+        }
+
+        for(List<HotelOffer> hotelOfferList: roomsByPetHotel){
+            for(HotelOffer hotelOffer: hotelOfferList){
+                if(countOverlappedRooms(hotelOffer.getReservations(), startDate, endDate) < hotelOffer.getTotalRooms()){
+                    availableHotelsInPeriod.add(hotelOffer.getPetHotel());
+                }
+            }
+        }
+        return availableHotelsInPeriod;
+
+    }
 
     private boolean reservationOverlaps(Reservation reservation, LocalDate startDate, LocalDate endDate) {
         return startDate.isBefore(reservation.getEndDate()) && endDate.isAfter(reservation.getStartDate());

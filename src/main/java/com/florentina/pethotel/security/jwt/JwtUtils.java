@@ -19,6 +19,10 @@ public class JwtUtils {
     @Value("${hotel.app.jwtExpirationMs}")
     private int jwtExpirationMs;
 
+    public String generateJwtToken(String username, List<String> roles) {
+        return generateTokenFromUsername(username, roles);
+    }
+
     public String generateTokenFromUsername(String username, List<String> roles){
         Claims claims = Jwts.claims().setSubject(username);
         claims.put("roles", roles);
