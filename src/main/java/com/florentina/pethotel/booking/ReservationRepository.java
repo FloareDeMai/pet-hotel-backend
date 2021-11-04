@@ -13,12 +13,14 @@ public interface ReservationRepository extends JpaRepository<Reservation, Long> 
 
 
     Reservation findReservationById(Long id);
+
     List<Reservation> findAllByCustomerId(Long id);
+
     @Query(
             value = "SELECT r FROM Reservation r WHERE r.customer = :customer AND r.id = :reservationId")
     Reservation findReservationByCustomerAndReservationId(Customer customer, Long reservationId);
-List<Reservation> findReservationsByHotelOffer(HotelOffer hotelOffer);
 
+    List<Reservation> findReservationsByHotelOffer(HotelOffer hotelOffer);
 
 
 }

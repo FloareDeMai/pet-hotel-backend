@@ -91,7 +91,7 @@ public class AuthController {
                     .badRequest()
                     .body(new MessageResponse("Error: email is already taken"));
         }
-log.info(signUpRequest.toString());
+        log.info(signUpRequest.toString());
         Customer customer = new Customer(signUpRequest.getUsername(), signUpRequest.getEmail(), passwordEncoder.encode(signUpRequest.getPassword()));
         Set<String> strRoles = signUpRequest.getRole();
         Set<Role> roles = new HashSet<>();
