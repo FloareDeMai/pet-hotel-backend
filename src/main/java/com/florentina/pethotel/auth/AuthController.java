@@ -91,7 +91,7 @@ public class AuthController {
                     .badRequest()
                     .body(new MessageResponse("Error: email is already taken"));
         }
-        log.info(signUpRequest.toString());
+
         Customer customer = new Customer(signUpRequest.getUsername(), signUpRequest.getEmail(), passwordEncoder.encode(signUpRequest.getPassword()));
         Set<String> strRoles = signUpRequest.getRole();
         Set<Role> roles = new HashSet<>();
@@ -110,6 +110,7 @@ public class AuthController {
 
     @PostMapping("/login")
     public ResponseEntity<?> authenticateUser(@Valid @RequestBody LoginRequest loginRequest) {
+
         Authentication authentication = authenticationManager.authenticate(new UsernamePasswordAuthenticationToken(loginRequest.getUsername(), loginRequest.getPassword()));
         SecurityContextHolder.getContext().setAuthentication(authentication);
         UserDetailsImplementation userDetailsImplementation = (UserDetailsImplementation) authentication.getPrincipal();
