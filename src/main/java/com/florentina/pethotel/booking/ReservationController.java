@@ -22,7 +22,9 @@ public class ReservationController {
     private final ReservationService reservationService;
 
     @GetMapping("/all-reservations")
+
     public List<Reservation> getAllReservations(){
+        log.info(LocalDate.now().toString());
         return reservationRepository.findAll();
     }
 

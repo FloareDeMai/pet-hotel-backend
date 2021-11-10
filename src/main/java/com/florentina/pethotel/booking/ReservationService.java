@@ -5,6 +5,7 @@ import com.florentina.pethotel.customer.Customer;
 import com.florentina.pethotel.exception.domain.NoRoomsAvailableException;
 import com.florentina.pethotel.hotel.PetHotel;
 import com.florentina.pethotel.hotel.enums.RoomType;
+
 import java.time.LocalDate;
 import java.util.List;
 
@@ -15,8 +16,8 @@ public interface ReservationService {
 
     List<Reservation> getAllReservations();
 
-    public List<Reservation> getAllReservationsByCustomer(Customer customer);
+    List<Reservation> getAllReservationsByCustomer(Customer customer);
 
-    List<PetHotel> findPetHotelsByCityAndIntervalSearched(String cityName, LocalDate startDate, LocalDate endDate);
+    List<PetHotel> findPetHotelsByCityAndIntervalSearched(String cityName, String startDate, String endDate);
 
 }

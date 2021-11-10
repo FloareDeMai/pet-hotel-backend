@@ -11,6 +11,8 @@ import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
 
+import java.util.Optional;
+
 @Service
 @AllArgsConstructor
 @Slf4j
@@ -23,13 +25,15 @@ public class UserDetailsServiceImplementation implements UserDetailsService {
     @Override
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
 
-        Customer customer = customerRepository.findByUsername(username).orElseThrow(()-> new UsernameNotFoundException("User not found with username: " + username));
-        PetHotel petHotel = petHotelRepository.findByHotelName(username);
+        Optional<Customer> customer = customerRepository.findByUsername(username);
+        Optional<PetHotel> petHotel = petHotelRepository.findByHotelName(username);
 
-        if (customer != null) {
-            return UserDetailsImplementation.build(customer);
-        }else{
-            return UserDetailsImplementation.buildHotel(petHotel);
+        if (customer.isPresent()) {
+            return UserDetailsImplementation.build(customer.get());
+        }else if(petHotel.isPresent()){
+            return UserDetailsImplementation.buildHotel(petHotel.get());
+        }else {
+            throw  new UsernameNotFoundException("User not found with username: " + username);
         }
 
     }

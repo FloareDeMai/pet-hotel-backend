@@ -6,7 +6,17 @@ import java.util.List;
 
 public interface PetHotelService {
 
-    public List<PetHotel> getAllHotels();
+     List<PetHotel> getAllHotels();
 
-    public List<PetHotel> getAllPetHotelsByCity(String cityName);
+     List<PetHotel> getAllPetHotelsByCity(String cityName);
+
+     List<PetHotel> getAllPetHotelsByAnimalTypeDog();
+
+     List<PetHotel> getAllHotelsByAnimalTypeCat();
+
+     List<PetHotel> getAllHotelsWithGarden();
+
+     List<PetHotel> filter(String filterType, List<PetHotel> listToFilter);
+
+     List<PetHotel> filter(List<String> filterTypes);
 }

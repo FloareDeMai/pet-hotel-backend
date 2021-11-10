@@ -9,6 +9,7 @@ import com.florentina.pethotel.hotel.enums.RoomType;
 import lombok.AllArgsConstructor;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
+import org.springframework.security.crypto.password.PasswordEncoder;
 
 import javax.annotation.PostConstruct;
 import java.util.ArrayList;
@@ -22,12 +23,14 @@ private final HotelOfferRepository hotelOfferRepository;
         SpringApplication.run(PetHotelApplication.class, args);
     }
 
+    PasswordEncoder passwordEncoder;
+
     @PostConstruct
     public void createData(){
 
         PetHotel zenHotel = new PetHotel();
         zenHotel.setHotelName("Zen Hotel");
-        zenHotel.setPassword("123");
+        zenHotel.setPassword(passwordEncoder.encode("123"));
         zenHotel.setEmail("zen-hotel@gmail.com");
         zenHotel.setDescription("Experiența noastră se reflectă în modul în care am organizat spațiile de cazare și cele de ieșire, fluxul pet hotelului, alegerea furnizorilor, colaboratorilor și nu în ultimul rând, a setului de reguli și condiții pe care e necesar să le îndepliniți la cazare. Prin respectarea indicațiilor noastre, ne oferiți astfel sprijinul în a acorda toată atenția și grija noastră pentru cățelul, pisica sau animăluțul dvs. de companie.");
         zenHotel.setAddress(new Address("Ploiesti", "Romania", "Matei Basarab", 23, "042041"));
@@ -75,13 +78,25 @@ private final HotelOfferRepository hotelOfferRepository;
 
 
         HotelOffer hotelOfferRaiulAnimalelor = new HotelOffer();
-        hotelOfferRaiulAnimalelor.setRoomType(RoomType.LUXURY_ROOM_DOGS);
+        hotelOfferRaiulAnimalelor.setRoomType(RoomType.LUXURY_ROOM_CATS);
         hotelOfferRaiulAnimalelor.setTotalRooms(2);
         hotelOfferRaiulAnimalelor.setMealsPerDay(3);
         hotelOfferRaiulAnimalelor.setWalkingPerDay(3);
         hotelOfferRaiulAnimalelor.setPricePerDay(100);
         hotelOfferRaiulAnimalelor.setPetHotel(petHotelRepository.getById(raiulAnimalelor.getId()));
         hotelOfferRepository.save(hotelOfferRaiulAnimalelor);
+
+
+        HotelOffer hotelOfferPlanetaHam = new HotelOffer();
+        hotelOfferPlanetaHam.setRoomType(RoomType.LUXURY_ROOM_DOGS);
+        hotelOfferPlanetaHam.setTotalRooms(4);
+        hotelOfferPlanetaHam.setMealsPerDay(3);
+        hotelOfferPlanetaHam.setWalkingPerDay(4);
+        hotelOfferPlanetaHam.setPricePerDay(120);
+        hotelOfferPlanetaHam.setPetHotel(petHotelRepository.getById(planetHam.getId()));
+        hotelOfferRepository.save(hotelOfferPlanetaHam);
+
+
 
 
     }
